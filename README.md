@@ -1,6 +1,6 @@
 # Slice
 This bundle lets the user slice through 3D layers.It integrates the Esri slice Widget into mapapps,
-![Screenshot App](https://github.com/conterra/mapapps-hierarchical-search/blob/master/screenshot.PNG)
+![Screenshot App](https://github.com/conterra/mapapps-slice/blob/master/screenshot.PNG)
 
 ## Sample App
 https://demos.conterra.de/mapapps/resources/apps/downloads_slice/index.html

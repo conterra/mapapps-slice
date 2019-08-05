@@ -18,7 +18,6 @@ import Vue from "apprt-vue/Vue";
 import VueDijit from "apprt-vue/VueDijit";
 import CancelablePromise from "apprt-core/CancelablePromise";
 import Slice from "esri/widgets/Slice";
-import SliceViewModel from "esri/widgets/Slice/SliceViewModel";
 
 class SliceWidgetFactory {
 
@@ -33,7 +32,6 @@ class SliceWidgetFactory {
     _initComponent() {
         const vm = this.vm = new Vue(SliceWidget);
         let excludedLayersProp = this._properties.excludedLayers;
-
 
         vm.i18n = this._i18n.get().widget;
         vm.excludedLayers = excludedLayersProp;
@@ -63,11 +61,11 @@ class SliceWidgetFactory {
     slice() {
         this.vm.exLayerActive = false;
         this.excludeLayer(this.vm.exLayerActive);
+        let view = this._mapWidgetModel.view;
         return new CancelablePromise((resolve, reject, oncancel) => {
             if (!this._mapWidgetModel) {
                 reject("MapWidgetModel not available!");
             }
-            let view = this._mapWidgetModel.view;
             let sliceButton = document.getElementById("sliceButton");
             if (this.sliceWidget) {
                 if (this.vm.excludedLayers.length > 0) {
@@ -111,14 +109,14 @@ class SliceWidgetFactory {
 
     excludeLayer(active) {
         let button = document.getElementById("exLayer");
+        let view = this._mapWidgetModel.view;
         if (active) {
             if (!button.classList.contains("sliceActive")) {
                 button.classList.add("sliceActive");
             }
-            let view = this._mapWidgetModel.get("view");
-            if(view.popup){
-                view.popup.close();
-            }
+            this.popupWatcher = view.popup.watch("visible", (e) =>{
+                view.popup.close()
+            });
             this.onClickHandler = view.on("click", (e) => {
                 let screenPoint = {
                     x: e.x,
@@ -151,6 +149,9 @@ class SliceWidgetFactory {
             }
             if (this.onClickHandler) {
                 this.onClickHandler.remove();
+            }
+            if(this.popupWatcher){
+                this.popupWatcher.remove();
             }
         }
 

@@ -103,6 +103,8 @@ class SliceWidgetFactory {
         }
         if (this.sliceWidget) {
             this.sliceWidget.viewModel.clearSlice();
+            this.sliceWidget.destroy();
+            this.sliceWidget = null;
         }
     }
 
@@ -179,6 +181,5 @@ class SliceWidgetFactory {
     }
 
 
-}
 
 module.exports = SliceWidgetFactory;

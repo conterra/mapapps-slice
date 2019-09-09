@@ -22,6 +22,7 @@
             "portal-webitem-map",
             "map-preload-3D",
             "toolset",
+            "toolrules",
             "banner",
             "basemaptoggler",
             "custominfo",
@@ -97,7 +98,6 @@
                 }
             ]
         },
-
         "themes": {
             "ThemeModel": {
                 "_selectedTheme": "everlasting"
@@ -184,6 +184,13 @@
                         "container": "ignore",
                         "windowType": "drawer_left"
                     }
+                ]
+            }
+        },
+        "toolrules": {
+            "ToolActiveStateManager": {
+                "activateOnStartToolIds": [
+                    "sliceToggleTool"
                 ]
             }
         }

@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 module.exports = {
-    bundleName: "3D-Querschnitt",
-    bundleDescription: "Das Modul lässt den Nutzer 3D-Layer durchschneiden. ",
-    windowTitle: "3D-Querschnitt Widget",
+    bundleName: "3D-Schnitt",
+    bundleDescription: "Das Modul lässt den Nutzer 3D-Layer horizontal oder vertikal durchschneiden. ",
+    windowTitle: "3D-Schnitt Widget",
     widget:{
-        title: "3D-Querschnitt",
-        tooltip: "3D-Querschnitt",
+        title: "3D-Schnitt",
+        tooltip: "3D-Schnitt",
         slice: "Neuer Ausschnitt",
         cancel: "Zurücksetzen",
         excludeLayer: "Layer ausschließen",

@@ -76,9 +76,6 @@ class SliceWidgetFactory {
                 this.sliceWidget.destroy();
                 this.sliceWidget = null;
             }
-            if (!sliceButton.classList.contains("sliceActive")) {
-                sliceButton.classList.add("sliceActive");
-            }
             this.sliceWidget = new Slice({
                 view: view
             });
@@ -116,7 +113,7 @@ class SliceWidgetFactory {
             if (!button.classList.contains("sliceActive")) {
                 button.classList.add("sliceActive");
             }
-            this.popupWatcher = view.popup.watch("visible", (e) =>{
+            this.popupWatcher = view.popup.watch("visible", (e) => {
                 view.popup.close()
             });
             this.onClickHandler = view.on("click", (e) => {
@@ -152,7 +149,7 @@ class SliceWidgetFactory {
             if (this.onClickHandler) {
                 this.onClickHandler.remove();
             }
-            if(this.popupWatcher){
+            if (this.popupWatcher) {
                 this.popupWatcher.remove();
             }
         }
@@ -161,9 +158,9 @@ class SliceWidgetFactory {
 
     removeLayer(layerDesc) {
         let layerId;
-        if(layerDesc.layer){
+        if (layerDesc.layer) {
             layerId = layerDesc.layer.id;
-        }else {
+        } else {
             layerId = layerDesc.id;
         }
 
@@ -179,7 +176,7 @@ class SliceWidgetFactory {
         });
         this.vm.excludedLayers = tempArray;
     }
-
+}
 
 
 module.exports = SliceWidgetFactory;

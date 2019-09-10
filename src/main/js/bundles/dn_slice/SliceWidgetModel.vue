@@ -31,7 +31,8 @@
         <v-btn
             block
             ripple
-            color="primary"
+            color="secondary"
+            input-value="clearSlice"
             @click="$emit('clearSlice', {})">
             {{ i18n.cancel }}
         </v-btn>
@@ -40,6 +41,7 @@
             id="exLayer"
             block
             ripple
+            class ="mb-3"
             color="secondary"
             input-value="exLayerActive"
             @click="$emit('excludeLayer', {})">
@@ -53,7 +55,7 @@
         <h5 v-if="excludedLayers.length>0">{{ i18n.exclLayers }}</h5>
         <p v-if="exLayerActive && excludedLayers.length<1">{{ i18n.exclLayersHint }}</p>
         <v-list
-            dense v-if="excludedLayers.length">
+            v-if="excludedLayers.length">
             <v-list-tile
                 v-for="layer in excludedLayers"
                 :key="layer.id"

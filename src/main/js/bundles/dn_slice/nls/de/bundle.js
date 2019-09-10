@@ -23,7 +23,7 @@ module.exports = {
         slice: "Neuer Ausschnitt",
         cancel: "Zurücksetzen",
         excludeLayer: "Layer ausschließen",
-        exclLayers: "Ausgeschlossener Layer",
-        exclLayersHint: "Klicken Sie auf die Layer, die Sie ausschließen möchten"
+        exclLayers: "Ausgeschlossene Layer",
+        exclLayersHint: "Klicken Sie auf die Layer, die Sie ausschließen möchten."
     }
 }

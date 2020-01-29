@@ -15,10 +15,6 @@
             "templatelayout",
             "template-seasons",
             "theme-everlasting",
-            "theme-winter",
-            "theme-spring",
-            "theme-summer",
-            "theme-autumn",
             "portal-webitem-map",
             "map-preload-3D",
             "toolset",
@@ -98,14 +94,6 @@
                     "id": "IMPRINT_Imprint_CustomInfoTool"
                 }
             ]
-        },
-        "themes": {
-            "ThemeModel": {
-                "_selectedTheme": "everlasting"
-            },
-            "ThemeSelector": {
-                "componentEnabled": true
-            }
         },
         "templates": {
             "TemplateModel": {

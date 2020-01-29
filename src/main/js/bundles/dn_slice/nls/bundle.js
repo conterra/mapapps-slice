@@ -24,8 +24,8 @@ module.exports = {
             slice: "New slice",
             cancel: "Clear",
             excludeLayer: "Exclude Layer",
-            exclLayers: "Excluded Layer",
-            exclLayersHint: "Click on the layer you like to exclude"
+            excludedLayers: "Excluded Layer",
+            excludedLayersHint: "Click on the layer you like to exclude it!"
         }
     },
     de: true

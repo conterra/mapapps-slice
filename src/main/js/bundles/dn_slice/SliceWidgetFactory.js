@@ -39,6 +39,7 @@ class SliceWidgetFactory {
 
     deactivate() {
         this[_observers].clean();
+        this[_observers] = null;
         this.clear();
     }
 
@@ -98,9 +99,13 @@ class SliceWidgetFactory {
         const sliceViewModel = this[_sliceViewModel];
         sliceViewModel.clearSlice();
         sliceViewModel.excludedLayers.removeAll();
+        this.vm.excludeLayerActive = false;
+        document.body.style.cursor = 'default';
     }
 
     excludeLayer() {
+        this.vm.excludeLayerActive = true;
+        document.body.style.cursor = 'crosshair';
         const view = this._mapWidgetModel.view;
         const sliceViewModel = this[_sliceViewModel];
         const onClickHandler = view.on("click", (event) => {
@@ -115,6 +120,8 @@ class SliceWidgetFactory {
                         return;
                     }
                     sliceViewModel.excludedLayers.add(layer);
+                    this.vm.excludeLayerActive = false;
+                    document.body.style.cursor = 'default';
                 }
             });
             event.stopPropagation();

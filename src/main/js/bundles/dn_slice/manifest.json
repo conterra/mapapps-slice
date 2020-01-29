@@ -28,10 +28,14 @@
                 "minimizeOnClose": true,
                 "resizable": true,
                 "marginBox": {
-                    "h": 300,
-                    "w": 300,
+                    "h": 500,
+                    "w": 400,
                     "b": 55,
                     "l": 20
+                },
+                "minSize": {
+                    "h": 500,
+                    "w": 400
                 },
                 "windowClass": "slice-window"
             }
@@ -87,8 +91,7 @@
             ],
             "instanceFactory": true,
             "properties": {
-                "widgetRole": "sliceWidget",
-                "excludedLayers": []
+                "widgetRole": "sliceWidget"
             },
             "references": [
                 {

@@ -17,14 +17,15 @@
 -->
 <template>
     <v-container
-        grid-list-md
-        fluid
         class="pa-1">
         <v-btn
             block
             ripple
             color="primary"
             @click="$emit('newSlice')">
+            <v-icon left>
+                flip
+            </v-icon>
             {{ i18n.slice }}
         </v-btn>
         <v-btn
@@ -32,6 +33,9 @@
             ripple
             color="secondary"
             @click="$emit('clearSlice')">
+            <v-icon left>
+                replay
+            </v-icon>
             {{ i18n.cancel }}
         </v-btn>
         <v-divider class="my-3"></v-divider>
@@ -41,15 +45,20 @@
             class="mb-3"
             color="secondary"
             @click="$emit('excludeLayer')">
-            <v-icon
-                dark
-                left>
-                icon-layer
+            <v-icon left>
+                playlist_add
             </v-icon>
             {{ i18n.excludeLayer }}
         </v-btn>
-        <h5 v-if="excludedLayers.length">{{ i18n.exclLayers }}</h5>
-        <p v-if="excludedLayers.length<1">{{ i18n.exclLayersHint }}</p>
+        <v-alert
+            :value="excludeLayerActive"
+            type="info"
+        >
+            {{ i18n.excludedLayersHint }}
+        </v-alert>
+        <h5 v-if="excludedLayers.length">
+            {{ i18n.excludedLayers }}
+        </h5>
         <v-list
             v-if="excludedLayers.length">
             <v-list-tile
@@ -90,7 +99,8 @@
                     }
                 },
                 excludedLayers: [],
-                state: null
+                state: null,
+                excludeLayerActive: false
             }
         }
     };

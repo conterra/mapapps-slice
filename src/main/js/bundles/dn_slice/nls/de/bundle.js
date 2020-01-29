@@ -15,15 +15,15 @@
  */
 module.exports = {
     bundleName: "3D-Schnitt",
-    bundleDescription: "Das Modul lässt den Nutzer 3D-Layer horizontal oder vertikal durchschneiden. ",
+    bundleDescription: "Das Bundle l\u00e4sst den Nutzer 3D-Layer durchschneiden.",
     windowTitle: "3D-Schnitt Widget",
     widget:{
         title: "3D-Schnitt",
         tooltip: "3D-Schnitt",
         slice: "Neuer Ausschnitt",
         cancel: "Zurücksetzen",
-        excludeLayer: "Layer ausschließen",
-        exclLayers: "Ausgeschlossene Layer",
-        exclLayersHint: "Klicken Sie auf die Layer, die Sie ausschließen möchten."
+        excludeLayer: "Layer ausschlie\u00dfen",
+        excludedLayers: "Ausgeschlossene Layer",
+        excludedLayersHint: "Klicken Sie auf den Layer, den Sie ausschlie\u00dfen m\u00f6chten!"
     }
 }

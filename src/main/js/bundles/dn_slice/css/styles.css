@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-.sliceActive {
-    filter: brightness(80%);
+.ctAppRoot .sliceWidget .v-alert.info {
+    margin: 0;
+    border: none;
 }

@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import SliceWidget from "./SliceWidgetModel.vue";
 import Vue from "apprt-vue/Vue";
 import VueDijit from "apprt-vue/VueDijit";
 import CancelablePromise from "apprt-core/CancelablePromise";
 import Slice from "esri/widgets/Slice";
+import SliceWidget from "./SliceWidget.vue";
 
 class SliceWidgetFactory {
 

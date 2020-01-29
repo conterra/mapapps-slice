@@ -5,6 +5,10 @@
     "description": "${bundleDescription}",
     "vendor": "con terra GmbH",
     "productName": "devnet-mapapps-slice",
+    "layer": "module",
+    "i18n": [
+        "bundle"
+    ],
     "CSS-Themes-Extension": [
         {
             "name": "*",
@@ -78,7 +82,9 @@
                 "iconClass": "icon-custom-info-imprint",
                 "togglable": true,
                 "rules": {
-                    "noGroup": true
+                    "noGroup": true,
+                    "viewmode": "3D",
+                    "ruleSuccessProperty": "visibility"
                 }
             }
         },

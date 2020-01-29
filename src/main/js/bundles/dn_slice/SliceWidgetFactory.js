@@ -15,14 +15,31 @@
  */
 import Vue from "apprt-vue/Vue";
 import VueDijit from "apprt-vue/VueDijit";
-import CancelablePromise from "apprt-core/CancelablePromise";
-import Slice from "esri/widgets/Slice";
+import Binding from "apprt-binding/Binding";
+import SliceViewModel from "esri/widgets/Slice/SliceViewModel";
 import SliceWidget from "./SliceWidget.vue";
+import Observers from "apprt-core/Observers";
+
+const _sliceViewModel = Symbol("_sliceViewModel");
+const _observers = Symbol("_observers");
 
 class SliceWidgetFactory {
 
     activate() {
+        const observers = this[_observers] = new Observers();
         this._initComponent();
+
+        const toolWatch = this._tool.watch("active", (name, oldValue, newValue) => {
+            if (!newValue) {
+                this.clear();
+            }
+        });
+        observers.add(toolWatch);
+    }
+
+    deactivate() {
+        this[_observers].clean();
+        this.clear();
     }
 
     createInstance() {
@@ -30,16 +47,14 @@ class SliceWidgetFactory {
     }
 
     _initComponent() {
+        const sliceViewModel = this[_sliceViewModel] = new SliceViewModel();
+        this._getView().then((view) => {
+            sliceViewModel.set("view", view);
+        });
         const vm = this.vm = new Vue(SliceWidget);
-        let excludedLayersProp = this._properties.excludedLayers;
-
         vm.i18n = this._i18n.get().widget;
-        vm.excludedLayers = excludedLayersProp;
 
         // listen to view model methods
-        vm.$on('startup', () => {
-
-        });
         vm.$on('newSlice', () => {
             this.slice();
         });
@@ -48,133 +63,88 @@ class SliceWidgetFactory {
         });
 
         vm.$on('excludeLayer', () => {
-            vm.exLayerActive = !vm.exLayerActive;
-            this.excludeLayer(vm.exLayerActive);
+            this.excludeLayer();
         });
 
-        vm.$on('removeLayer', (layerDesc) => {
-            this.removeLayer(layerDesc)
+        vm.$on('removeExcludedLayer', (id) => {
+            this.removeLayer(id);
         });
 
+        const observers = this[_observers];
+        observers.add(sliceViewModel.watch("excludedLayers", (excludedLayers) => {
+            if (excludedLayers) {
+                excludedLayers.on("after-changes", () => {
+                    vm.excludedLayers = excludedLayers.map(({id, title}) => {
+                        return {
+                            id,
+                            title
+                        }
+                    }).toArray();
+                });
+            }
+        }));
+        observers.add(Binding.for(vm, sliceViewModel)
+            .syncToLeft("state")
+            .enable()
+            .syncToLeftNow());
     }
 
     slice() {
-        this.vm.exLayerActive = false;
-        this.excludeLayer(this.vm.exLayerActive);
-        let view = this._mapWidgetModel.view;
-        return new CancelablePromise((resolve, reject, oncancel) => {
-            if (!this._mapWidgetModel) {
-                reject("MapWidgetModel not available!");
-            }
-            let sliceButton = document.getElementById("sliceButton");
-            if (this.sliceWidget) {
-                if (this.vm.excludedLayers.length > 0) {
-                    this.vm.excludedLayers.forEach(layerDesc => {
-                        this.removeLayer(layerDesc);
-                    })
-                }
-                this.sliceWidget.destroy();
-                this.sliceWidget = null;
-            }
-            this.sliceWidget = new Slice({
-                view: view
-            });
-            if (this.vm.excludedLayers.length > 0) {
-                this.vm.excludedLayers.forEach(layerDesc => {
-                    let layer = this._mapWidgetModel.map.findLayerById(layerDesc.id);
-                    this.sliceWidget.viewModel.excludedLayers.add(layer);
-                })
-            }
-            this.sliceWidget.viewModel.newSlice();
-            oncancel("Slice Widget Canceled")
-        });
+        const sliceViewModel = this[_sliceViewModel];
+        sliceViewModel.newSlice();
     }
 
     clear() {
-        this.vm.exLayerActive = false;
-        this.vm.excludedLayers = [];
-        this.excludeLayer(this.vm.exLayerActive);
-        let sliceButton = document.getElementById("sliceButton");
-        if (sliceButton.classList.contains("sliceActive")) {
-            sliceButton.classList.remove("sliceActive");
-        }
-        if (this.sliceWidget) {
-            this.sliceWidget.viewModel.clearSlice();
-            this.sliceWidget.destroy();
-            this.sliceWidget = null;
-        }
+        const sliceViewModel = this[_sliceViewModel];
+        sliceViewModel.clearSlice();
+        sliceViewModel.excludedLayers.removeAll();
     }
 
-
-    excludeLayer(active) {
-        let button = document.getElementById("exLayer");
-        let view = this._mapWidgetModel.view;
-        if (active) {
-            if (!button.classList.contains("sliceActive")) {
-                button.classList.add("sliceActive");
-            }
-            this.popupWatcher = view.popup.watch("visible", (e) => {
-                view.popup.close()
-            });
-            this.onClickHandler = view.on("click", (e) => {
-                let screenPoint = {
-                    x: e.x,
-                    y: e.y
-                };
-
-                view.hitTest(screenPoint).then((response) => {
-                    if (response.results.length) {
-                        let layer = response.results[0].graphic.layer;
-                        let layerIncluded = false;
-                        if (this.vm.excludedLayers.length > 0) {
-                            this.vm.excludedLayers.forEach(alreadyExcluded => {
-                                if (alreadyExcluded.id === layer.id) {
-                                    layerIncluded = true
-                                }
-                            });
-                        }
-                        if (!layerIncluded) {
-                            this.vm.excludedLayers.push({id: layer.id, name: layer.title});
-                            if (this.sliceWidget) {
-                                this.sliceWidget.viewModel.excludedLayers.add(layer);
-                            }
-                        }
+    excludeLayer() {
+        const view = this._mapWidgetModel.view;
+        const sliceViewModel = this[_sliceViewModel];
+        const onClickHandler = view.on("click", (event) => {
+            view.hitTest(event).then((response) => {
+                const results = response.results;
+                if (results.length) {
+                    const layer = results[0].graphic.layer;
+                    const alreadyExcluded = sliceViewModel.excludedLayers.find((excludedLayer) => {
+                        return excludedLayer.id === layer.id;
+                    });
+                    if (alreadyExcluded) {
+                        return;
                     }
-                });
+                    sliceViewModel.excludedLayers.add(layer);
+                }
             });
-        } else {
-            if (button.classList.contains("sliceActive")) {
-                button.classList.remove("sliceActive");
-            }
-            if (this.onClickHandler) {
-                this.onClickHandler.remove();
-            }
-            if (this.popupWatcher) {
-                this.popupWatcher.remove();
-            }
-        }
-
+            event.stopPropagation();
+            this[_observers].remove(onClickHandler);
+            onClickHandler.remove();
+        });
+        this[_observers].add(onClickHandler);
     }
 
-    removeLayer(layerDesc) {
-        let layerId;
-        if (layerDesc.layer) {
-            layerId = layerDesc.layer.id;
-        } else {
-            layerId = layerDesc.id;
+    removeLayer(id) {
+        const map = this._mapWidgetModel.map;
+        const layer = map.findLayerById(id);
+        if (!layer) {
+            return;
         }
+        const sliceViewModel = this[_sliceViewModel];
+        sliceViewModel.excludedLayers.remove(layer);
+    }
 
-        let layer = this._mapWidgetModel.map.findLayerById(layerId);
-        if (this.sliceWidget) {
-            this.sliceWidget.viewModel.excludedLayers.remove(layer);
-        }
-        let tempArray = [];
-        this.vm.excludedLayers.forEach(layer => {
-            if (layerId !== layer.id) {
-                tempArray.push(layer)
+    _getView() {
+        const mapWidgetModel = this._mapWidgetModel;
+        return new Promise((resolve, reject) => {
+            if (mapWidgetModel.view) {
+                resolve(mapWidgetModel.view);
+            } else {
+                mapWidgetModel.watch("view", ({value: view}) => {
+                    resolve(view);
+                });
             }
         });
-        this.vm.excludedLayers = tempArray;
     }
 }
 

@@ -21,30 +21,26 @@
         fluid
         class="pa-1">
         <v-btn
-            id="sliceButton"
             block
             ripple
             color="primary"
-            @click="$emit('newSlice', {})">
+            @click="$emit('newSlice')">
             {{ i18n.slice }}
         </v-btn>
         <v-btn
             block
             ripple
             color="secondary"
-            input-value="clearSlice"
-            @click="$emit('clearSlice', {})">
+            @click="$emit('clearSlice')">
             {{ i18n.cancel }}
         </v-btn>
         <v-divider class="my-3"></v-divider>
         <v-btn
-            id="exLayer"
             block
             ripple
-            class ="mb-3"
+            class="mb-3"
             color="secondary"
-            input-value="exLayerActive"
-            @click="$emit('excludeLayer', {})">
+            @click="$emit('excludeLayer')">
             <v-icon
                 dark
                 left>
@@ -52,28 +48,27 @@
             </v-icon>
             {{ i18n.excludeLayer }}
         </v-btn>
-        <h5 v-if="excludedLayers.length>0">{{ i18n.exclLayers }}</h5>
-        <p v-if="exLayerActive && excludedLayers.length<1">{{ i18n.exclLayersHint }}</p>
+        <h5 v-if="excludedLayers.length">{{ i18n.exclLayers }}</h5>
+        <p v-if="excludedLayers.length<1">{{ i18n.exclLayersHint }}</p>
         <v-list
             v-if="excludedLayers.length">
             <v-list-tile
                 v-for="layer in excludedLayers"
                 :key="layer.id"
-                target="_blank"
             >
                 <v-list-tile-action>
                     <v-btn
                         icon
                         tile
                         ripple
-                        @click="$emit('removeLayer', {layer})">
+                        @click="$emit('removeExcludedLayer', layer.id)">
                         <v-icon>
                             icon-trashcan
                         </v-icon>
                     </v-btn>
                 </v-list-tile-action>
                 <v-list-tile-content>
-                    <v-list-tile-title v-text="layer.name"></v-list-tile-title>
+                    <v-list-tile-title v-text="layer.title"></v-list-tile-title>
                 </v-list-tile-content>
             </v-list-tile>
         </v-list>
@@ -83,28 +78,20 @@
     import Bindable from "apprt-vue/mixins/Bindable";
 
     export default {
-        components: {},
         mixins: [Bindable],
-        props: {
-            i18n: {
-                type: Object,
-                default: function () {
-                    return {
-                        layer: "Layer:"
+        data: function () {
+            return {
+                i18n: {
+                    type: Object,
+                    default: function () {
+                        return {
+                            layer: "Layer:"
+                        }
                     }
-                }
-            },
-            excludedLayers: {
-                type: Array,
-                default: () => []
-            },
-            exLayerActive:{
-                type: Boolean,
-                default: false
+                },
+                excludedLayers: [],
+                state: null
             }
-        },
-        data() {
-            return {}
         }
     };
 </script>

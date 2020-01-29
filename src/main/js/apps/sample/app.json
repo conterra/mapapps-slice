@@ -32,6 +32,7 @@
             "share-link",
             "omnisearch",
             "locator-store",
+            "popups-default",
             "dn_slice"
         ],
         "require": [

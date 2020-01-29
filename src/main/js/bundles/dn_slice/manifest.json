@@ -79,8 +79,12 @@
             }
         },
         {
-            "name": "SliceWidgetFactory",
-            "provides": "dijit.Widget",
+            "name": "Config",
+            "impl": "./SliceWidgetFactory",
+            "provides": [
+                "dijit.Widget",
+                "dn_slice.SliceWidgetFactory"
+            ],
             "instanceFactory": true,
             "properties": {
                 "widgetRole": "sliceWidget",
@@ -89,8 +93,7 @@
             "references": [
                 {
                     "name": "_mapWidgetModel",
-                    "providing": "map-widget.MapWidgetModel",
-                    "cardinality": "0..1"
+                    "providing": "map-widget.MapWidgetModel"
                 },
                 {
                     "name": "_tool",

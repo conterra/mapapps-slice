@@ -20,7 +20,6 @@
     "layout-widgets": [
         {
             "widgetRole": "sliceWidget",
-            "template": "seasons",
             "sublayout": [
                 "desktop",
                 "tablet_landscape",
@@ -46,7 +45,6 @@
         },
         {
             "widgetRole": "sliceWidget",
-            "template": "seasons",
             "sublayout": [
                 "mobile_landscape",
                 "mobile_portrait"

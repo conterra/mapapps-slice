@@ -92,12 +92,12 @@ class SliceWidgetFactory {
 
     slice() {
         const sliceViewModel = this[_sliceViewModel];
-        sliceViewModel.newSlice();
+        sliceViewModel.start();
     }
 
     clear() {
         const sliceViewModel = this[_sliceViewModel];
-        sliceViewModel.clearSlice();
+        sliceViewModel.clear();
         sliceViewModel.excludedLayers.removeAll();
         this.vm.excludeLayerActive = false;
         document.body.style.cursor = 'default';

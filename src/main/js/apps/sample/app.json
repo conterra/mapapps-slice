@@ -31,9 +31,6 @@
             "popups-default",
             "dn_slice"
         ],
-        "require": [
-            "${app}.app"
-        ],
         "i18n": [
             "bundle"
         ]

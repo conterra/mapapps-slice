@@ -79,7 +79,7 @@ class SliceWidgetFactory {
                         return {
                             id,
                             title
-                        }
+                        };
                     }).toArray();
                 });
             }
@@ -113,9 +113,8 @@ class SliceWidgetFactory {
                 const results = response.results;
                 if (results.length) {
                     const layer = results[0].graphic.layer;
-                    const alreadyExcluded = sliceViewModel.excludedLayers.find((excludedLayer) => {
-                        return excludedLayer.id === layer.id;
-                    });
+                    const alreadyExcluded = sliceViewModel
+                        .excludedLayers.find((excludedLayer) => excludedLayer.id === layer.id);
                     if (alreadyExcluded) {
                         return;
                     }
@@ -143,7 +142,7 @@ class SliceWidgetFactory {
 
     _getView() {
         const mapWidgetModel = this._mapWidgetModel;
-        return new Promise((resolve, reject) => {
+        return new Promise(resolve => {
             if (mapWidgetModel.view) {
                 resolve(mapWidgetModel.view);
             } else {

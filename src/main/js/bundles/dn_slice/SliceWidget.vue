@@ -17,12 +17,14 @@
 -->
 <template>
     <v-container
-        class="pa-1">
+        class="pa-1"
+    >
         <v-btn
             block
             ripple
             color="primary"
-            @click="$emit('newSlice')">
+            @click="$emit('newSlice')"
+        >
             <v-icon left>
                 flip
             </v-icon>
@@ -32,19 +34,21 @@
             block
             ripple
             color="secondary"
-            @click="$emit('clearSlice')">
+            @click="$emit('clearSlice')"
+        >
             <v-icon left>
                 replay
             </v-icon>
             {{ i18n.cancel }}
         </v-btn>
-        <v-divider class="my-3"></v-divider>
+        <v-divider class="my-3" />
         <v-btn
             block
             ripple
             class="mb-3"
             color="secondary"
-            @click="$emit('excludeLayer')">
+            @click="$emit('excludeLayer')"
+        >
             <v-icon left>
                 playlist_add
             </v-icon>
@@ -60,7 +64,8 @@
             {{ i18n.excludedLayers }}
         </h5>
         <v-list
-            v-if="excludedLayers.length">
+            v-if="excludedLayers.length"
+        >
             <v-list-tile
                 v-for="layer in excludedLayers"
                 :key="layer.id"
@@ -70,14 +75,15 @@
                         icon
                         tile
                         ripple
-                        @click="$emit('removeExcludedLayer', layer.id)">
+                        @click="$emit('removeExcludedLayer', layer.id)"
+                    >
                         <v-icon>
                             icon-trashcan
                         </v-icon>
                     </v-btn>
                 </v-list-tile-action>
                 <v-list-tile-content>
-                    <v-list-tile-title v-text="layer.title"></v-list-tile-title>
+                    <v-list-tile-title>{{ layer.title }}</v-list-tile-title>
                 </v-list-tile-content>
             </v-list-tile>
         </v-list>
@@ -95,13 +101,13 @@
                     default: function () {
                         return {
                             layer: "Layer:"
-                        }
+                        };
                     }
                 },
                 excludedLayers: [],
                 state: null,
                 excludeLayerActive: false
-            }
+            };
         }
     };
 </script>

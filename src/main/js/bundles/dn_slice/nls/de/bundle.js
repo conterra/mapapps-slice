@@ -26,4 +26,4 @@ export default {
         excludedLayers: "Ausgeschlossene Layer",
         excludedLayersHint: "Klicken Sie auf den Layer, den Sie ausschlie\u00dfen m\u00f6chten!"
     }
-}
+};

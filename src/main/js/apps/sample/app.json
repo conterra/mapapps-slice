@@ -75,6 +75,13 @@
                 }
             }
         },
+        "toolrules": {
+            "ToolActiveStateManager": {
+                "activateOnStartToolIds": [
+                    "sliceToggleTool"
+                ]
+            }
+        },
         "toc": {
             "Config": {
                 "showBasemaps": true,
@@ -87,6 +94,7 @@
                     {
                         "id": "mapview_tools",
                         "tools": [
+                            "sliceToggleTool",
                             "locateMeTool",
                             "zoomInTool",
                             "zoomOutTool",

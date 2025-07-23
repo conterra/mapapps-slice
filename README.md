@@ -3,7 +3,7 @@ This bundle lets the user slice through 3D layers. It integrates the Esri slice 
 ![Screenshot App](https://github.com/conterra/mapapps-slice/blob/main/screenshot.PNG)
 
 ## Sample App
-https://demos.conterra.de/mapapps/resources/apps/downloads_slice/index.html
+https://demos.conterra.de/mapapps/resources/apps/public_demo_slice/index.html
 
 ## Installation Guide
 **Requirement: map.apps 4.7.0**

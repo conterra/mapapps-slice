@@ -16,7 +16,7 @@
 import Vue from "apprt-vue/Vue";
 import VueDijit from "apprt-vue/VueDijit";
 import Binding from "apprt-binding/Binding";
-import SliceViewModel from "esri/widgets/Slice/SliceViewModel";
+import SliceViewModel from "@arcgis/core/widgets/Slice/SliceViewModel";
 import SliceWidget from "./SliceWidget.vue";
 import Observers from "apprt-core/Observers";
 

@@ -9,7 +9,10 @@
     "i18n": [
         "bundle"
     ],
-    "CSS-Themes-Extension": [
+    "dependencies": {
+        "@arcgis/core": "^4.33.0"
+    },
+    "cssThemesExtension": [
         {
             "name": "*",
             "files": [

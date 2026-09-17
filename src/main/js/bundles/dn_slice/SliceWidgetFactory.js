@@ -49,9 +49,19 @@ class SliceWidgetFactory {
 
     _initComponent() {
         const sliceViewModel = this[_sliceViewModel] = new SliceViewModel();
-        this._getView().then((view) => {
+
+        const mapWidgetModel = this._mapWidgetModel;
+
+        const observers = this[_observers];
+
+        observers.add(mapWidgetModel.watch("view", ({value: view}) => {
             sliceViewModel.set("view", view);
-        });
+        }));
+
+        if (mapWidgetModel.view) {
+            sliceViewModel.set("view", mapWidgetModel.view);
+        }
+
         const vm = this.vm = new Vue(SliceWidget);
         vm.i18n = this._i18n.get().widget;
 
@@ -71,7 +81,6 @@ class SliceWidgetFactory {
             this.removeLayer(id);
         });
 
-        const observers = this[_observers];
         observers.add(sliceViewModel.watch("excludedLayers", (excludedLayers) => {
             if (excludedLayers) {
                 excludedLayers.on("after-changes", () => {
@@ -138,19 +147,6 @@ class SliceWidgetFactory {
         }
         const sliceViewModel = this[_sliceViewModel];
         sliceViewModel.excludedLayers.remove(layer);
-    }
-
-    _getView() {
-        const mapWidgetModel = this._mapWidgetModel;
-        return new Promise(resolve => {
-            if (mapWidgetModel.view) {
-                resolve(mapWidgetModel.view);
-            } else {
-                mapWidgetModel.watch("view", ({value: view}) => {
-                    resolve(view);
-                });
-            }
-        });
     }
 }
 

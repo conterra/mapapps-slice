@@ -36,7 +36,8 @@
             "toc",
             "toolset",
             "dn_imprintprivacy",
-            "dn_slice"
+            "dn_slice",
+            "viewmodeswitcher"
         ],
         "i18n": [
             "bundle"
@@ -95,6 +96,7 @@
                         "id": "mapview_tools",
                         "tools": [
                             "sliceToggleTool",
+                            "viewmodeSwitcherTool",
                             "locateMeTool",
                             "zoomInTool",
                             "zoomOutTool",

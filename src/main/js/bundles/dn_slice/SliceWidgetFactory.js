@@ -55,12 +55,10 @@ class SliceWidgetFactory {
         const observers = this[_observers];
 
         observers.add(mapWidgetModel.watch("view", ({value: view}) => {
-            sliceViewModel.set("view", view);
+            this._setView(view);
         }));
 
-        if (mapWidgetModel.view) {
-            sliceViewModel.set("view", mapWidgetModel.view);
-        }
+        this._setView(mapWidgetModel.view);
 
         const vm = this.vm = new Vue(SliceWidget);
         vm.i18n = this._i18n.get().widget;
@@ -147,6 +145,12 @@ class SliceWidgetFactory {
         }
         const sliceViewModel = this[_sliceViewModel];
         sliceViewModel.excludedLayers.remove(layer);
+    }
+
+    _setView(view) {
+        // only update the sceneView if viewMode is 3D
+        const sceneView = view?.type === "3d" ? view : null;
+        this[_sliceViewModel].set("view", sceneView);
     }
 }
 
